@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xmlns:security="http://www.springframework.org/schema/security"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans  
+                           http://www.springframework.org/schema/beans/spring-beans.xsd  
+                           http://www.springframework.org/schema/security  
+                           http://www.springframework.org/schema/security/spring-security-4.0.xsd">
+                           
+                           
+	<security:http auto-config="true">
+	
+	<security:csrf disabled="true"/>
+	<!-- <security:intercept-url pattern="/dist/**" access="permitAll" /> -->
+	
+	<security:intercept-url pattern="/login**" access="permitAll" />
+	<security:intercept-url pattern="/register**" access="permitAll" />
+	<security:intercept-url pattern="/forgot**" access="permitAll" />
+	
+	
+	  <security:intercept-url pattern="/**" access="isAuthenticated()" /> 
+	 <security:form-login login-page='/login'
+	 						default-target-url='/home'
+	 						
+	 						always-use-default-target='true'/>
+	 		<security:access-denied-handler
+			error-page="/403.html" />
+	 						
+	 		<security:logout logout-success-url="/login?logout=true" delete-cookies="JSESSIONID" />
+      
+      </security:http>
+	
+	
+
+	<!-- <security:authentication-manager>
+		<security:authentication-provider>
+			<security:user-service>
+				<security:user name="csd2" password="12345" authorities="ROLE_ADMIN" />
+			</security:user-service>
+		</security:authentication-provider>
+	
+	</security:authentication-manager> -->
+
+
+ 
+ <security:authentication-manager>
+ <security:authentication-provider ref="customAuthProvider" />
+  </security:authentication-manager>
+ 
+</beans>	
